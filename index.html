@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script>
+      function validarNomeUsuario() {
+        var nomeUsuario = document.getElementById("nomeUsuario").value;
+        var url = "https://script.google.com/macros/s/AKfycbxjFfkAn8-rynU11VWI76SScC7v-1kBggn7JQ9hQkKFXAeKLY19pSFg3fs5CcncIr-k/exec"; // Substitua pelo URL do seu Web App
+        
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: 'nomeUsuario=' + encodeURIComponent(nomeUsuario)
+        })
+        .then(response => response.text())
+        .then(result => {
+          if (result === "Nome de usuário válido.") {
+            document.getElementById("resultado").innerText = "";
+            document.getElementById("submitButton").disabled = false;
+          } else {
+            document.getElementById("resultado").innerText = "Nome de usuário inválido.";
+            document.getElementById("submitButton").disabled = true;
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <h2>Upload de Documentos</h2>
+    <form action="https://docs.google.com/forms/d/e/1FAIpQLSfq8SPQIAshVImHfEPOTgr_RK_dK2-ZbDvJr_kYql7WzdaZlw/viewform?usp=sf_link" method="POST">
+      <label for="nomeUsuario">Nome de Usuário:</label><br>
+      <input type="text" id="nomeUsuario" name="nomeUsuario" onblur="validarNomeUsuario()"><br>
+      <span id="resultado" style="color: red;"></span><br><br>
+      <!-- Adicione aqui os campos de upload de arquivo -->
+      <input type="submit" id="submitButton" value="Enviar" disabled>
+    </form>
+  </body>
+</html>
